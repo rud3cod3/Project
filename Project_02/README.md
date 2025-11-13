@@ -87,8 +87,3 @@ conflicts with existing host services.
 
 > All commands are intended to be run on the **VM** unless explicitly
 > noted as run on the **host**.
-
-### 1. System update (VM)
-```bash
-sudo apt update && sudo apt upgrade -y
-)
