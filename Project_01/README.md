@@ -33,7 +33,7 @@ The base code was sourced online, but I customized it and modified configuration
   ping webserver1
   curl webserver2
 
-2. DNS and Host Resolution
+### 2. DNS and Host Resolution
 
 Simulated a basic DNS setup using /etc/hosts
 
@@ -41,7 +41,7 @@ Learned about /etc/resolv.conf and /etc/nsswitch.conf
 
 Explored lookup tools: nslookup, dig
 
-3. Web Server Setup
+### 3. Web Server Setup
 
 Installed and configured Nginx on both VMs:
 
@@ -55,7 +55,7 @@ Customized index page:
 
 echo "Welcome to $(hostname)" | sudo tee /var/www/html/index.html
 
-4. Shell Script Automation
+### 4. Shell Script Automation
 
 Created a setup script to automate installation and configuration.
 
