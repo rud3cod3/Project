@@ -1,0 +1,18 @@
+Host (developer machine)
+┌─────────────────────────────────────────────────────────────┐
+│ Browser / curl -> http://localhost:8091 or :8092            │
+│                                                             │
+│ NAT Port Forwarding or SSH Tunnel                           │
+│   127.0.0.1:8091 -> VM:8091                                  │
+│   127.0.0.1:8092 -> VM:8092                                  │
+└─────────────────────────────────────────────────────────────┘
+                 ||
+                 \/ (network boundary)
+VM (Ubuntu 22.04) - Docker Engine
+┌─────────────────────────────────────────────────────────────┐
+│ docker run -p 8091:80 nginx:alpine  -> site1 container       │
+│ docker run -p 8092:80 nginx:alpine  -> site2 container       │
+│                                                             │
+│ UFW (optional) allows 8091/tcp and 8092/tcp                 │
+└─────────────────────────────────────────────────────────────┘
+
