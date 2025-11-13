@@ -1,0 +1,9 @@
+# Linux Networking & VM Communication
+
+During this project, I gained a deeper understanding of how networking operates within Linux environments and how virtual machines interact over different network configurations. I explored how the ip addr and ip route commands define network interfaces, assign IPs, and control how traffic flows within and outside the system.
+
+I learned how the host machine communicates with virtual machines through various network modes — such as NAT, Bridged, and Host-only adapters — and how each mode affects visibility, routing, and isolation. It helped me clearly see how packets travel from the host to a VM and vice versa, and how Linux uses virtual interfaces and routing tables to manage that communication.
+
+Through this setup, I also understood the importance of port forwarding, which allows external requests to reach specific services running inside VMs. Using this approach, I could simulate different environments such as development, testing, and QA servers — all on my local network — and practice deploying web applications as if they were running on a real multi-server architecture.
+
+This hands-on experience not only improved my understanding of Linux networking fundamentals, but also strengthened my DevOps mindset, where infrastructure, automation, and networking come together to create scalable, isolated, and production-like environments.
