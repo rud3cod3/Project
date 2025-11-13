@@ -80,10 +80,3 @@ multi-webserver-vm-docker/
 
 You can change these ports to match your environment, but be mindful of
 conflicts with existing host services.
-
----
-
-## Full step-by-step setup (commands to run inside the VM)
-
-> All commands are intended to be run on the **VM** unless explicitly
-> noted as run on the **host**.
