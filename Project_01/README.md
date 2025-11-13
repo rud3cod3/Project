@@ -33,3 +33,51 @@ The base code was sourced online, but I customized it and modified configuration
   ping webserver1
   curl webserver2
 
+2. DNS and Host Resolution
+
+Simulated a basic DNS setup using /etc/hosts
+
+Learned about /etc/resolv.conf and /etc/nsswitch.conf
+
+Explored lookup tools: nslookup, dig
+
+3. Web Server Setup
+
+Installed and configured Nginx on both VMs:
+
+sudo apt update
+sudo apt install nginx -y
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+
+Customized index page:
+
+echo "Welcome to $(hostname)" | sudo tee /var/www/html/index.html
+
+4. Shell Script Automation
+
+Created a setup script to automate installation and configuration.
+
+Example:
+
+#!/bin/bash
+sudo apt update -y
+sudo apt install nginx -y
+echo "Welcome to $(hostname)" | sudo tee /var/www/html/index.html
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+What I Learned
+
+Internal working of Linux hostname resolution
+
+Manual IP mapping and connectivity checks
+
+DNS fallback order and resolver flow
+
+Basic web server configuration and service management
+
+Shell scripting for automation
+
+Debugging with ping, curl, ss, netstat
