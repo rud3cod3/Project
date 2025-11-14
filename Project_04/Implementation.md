@@ -27,6 +27,8 @@ sudo yum install httpd -y
 sudo systemctl start httpd
 sudo systemctl enable httpd
 
+```
+
 ### Step 3: Mount EFS (Elastic File System)
 
 Follow efs_setup.md for full EFS configuration. In brief:
