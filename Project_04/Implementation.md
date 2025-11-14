@@ -16,13 +16,11 @@ This document provides a detailed step-by-step guide to implement the AWS Capsto
 SSH into the instance:
 ```bash
 ssh -i your-key.pem ec2-user@<public-ip>
-
-
-Switch to root:
-
 sudo -i
 
+```
 
+```bash
 Install Apache HTTP server:
 
 sudo yum install httpd -y
