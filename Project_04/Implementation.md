@@ -30,29 +30,31 @@ sudo systemctl enable httpd
 ### Step 3: Mount EFS (Elastic File System)
 
 Follow efs_setup.md for full EFS configuration. In brief:
-
 Install EFS utils:
 
+```bash
 sudo yum install amazon-efs-utils -y
-
+```
 
 Mount EFS to web directory:
-
+```bash
 sudo mount -t efs fs-xxxxxxxx:/ /var/www/html
-
+```
 
 Make mount permanent in /etc/fstab:
-
+```bash
 fs-xxxxxxxx.efs.ap-south-1.amazonaws.com:/ /var/www/html efs defaults,_netdev 0 0
+```
 
-Step 4: Deploy Website Content
+### Step 4: Deploy Website Content
 
 Download and copy the website to /var/www/html:
 
+```bash
 curl -O https://www.tooplate.com/zip-templates/2124_vertex.zip
 unzip 2124_vertex.zip
 mv 2124_vertex/* /var/www/html/
-
+```
 
 Verify content is served by opening the public IP in a browser.
 
