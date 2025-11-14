@@ -58,65 +58,46 @@ mv 2124_vertex/* /var/www/html/
 
 Verify content is served by opening the public IP in a browser.
 
-Step 5: Create Custom AMI
+## Step 5: Create Custom AMI
 
 After verifying the web server and EFS mount, create an AMI of the EC2 instance.
-
 This AMI will be used for Auto Scaling Launch Templates.
 
-2. Auto Scaling & Launch Template
-Step 1: Create Launch Template
+## 2. Auto Scaling & Launch Template
+
+### Step 1: Create Launch Template
 
 Navigate to EC2 > Launch Templates.
-
 Click Create Launch Template:
-
 Use your custom AMI.
-
 Choose instance type (e.g., t2.micro).
-
 Select Key Pair for SSH.
-
 Default network/subnet can be used; later assign private subnets in ASG.
-
 Add UserData script (optional) for automated configuration/testing.
 
-Step 2: Create Auto Scaling Group (ASG)
+### Step 2: Create Auto Scaling Group (ASG)
 
 Go to EC2 > Auto Scaling Groups.
-
 Click Create Auto Scaling Group.
-
 Select the Launch Template created above.
-
 Choose private subnets 1a and 1b.
-
 Configure desired, min, max instances:
-
 Min: 2 (can scale down to 0)
-
 Max: 5 (example, based on load)
-
 Desired: 2
-
 Attach Target Groups (created in ALB setup).
 
-3. Application Load Balancer (ALB) Setup
-Step 1: Create Target Groups
+## 3. Application Load Balancer (ALB) Setup
 
+### Step 1: Create Target Groups
 Navigate to EC2 > Target Groups.
-
 Create two target groups:
-
 Main-TG → HTTP → port 80
-
 Test-TG → HTTP → port 8080
-
 Target type: Instance.
-
 Register instances later via Auto Scaling Group.
 
-Step 2: Create ALB
+### Step 2: Create ALB
 
 Go to EC2 > Load Balancers > Create Load Balancer.
 
