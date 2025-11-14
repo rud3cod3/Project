@@ -58,7 +58,7 @@ mv 2124_vertex/* /var/www/html/
 
 Verify content is served by opening the public IP in a browser.
 
-## Step 5: Create Custom AMI
+### Step 5: Create Custom AMI
 
 After verifying the web server and EFS mount, create an AMI of the EC2 instance.
 This AMI will be used for Auto Scaling Launch Templates.
@@ -100,77 +100,52 @@ Register instances later via Auto Scaling Group.
 ### Step 2: Create ALB
 
 Go to EC2 > Load Balancers > Create Load Balancer.
-
 Select Application Load Balancer.
-
 Assign public subnets (1a and 1b).
-
 Configure security group:
-
 Allow HTTP (port 80) from 0.0.0.0/0
-
 Allow custom TCP (port 8080) from your IP
-
 Add listeners:
-
 HTTP → Main-TG
-
 HTTP → Test-TG
-
 Review and create.
 
-Step 3: Connect ALB to ASG
+## Step 3: Connect ALB to ASG
 
 In the ASG, attach both target groups.
-
 Adjust instance numbers to test scaling behavior.
-
 Open ALB DNS URL in a browser to verify load balancing.
 
-4. Security Groups & Hardening
-Web Server SG
+## 4. Security Groups & Hardening
 
+### Web Server SG
 Allow HTTP from ALB SG only.
-
 Allow custom TCP 8080 from ALB SG only.
-
 Allow SSH from your IP only.
 
-EFS SG
-
+#### EFS SG
 Allow NFS (port 2049) from Web Server SG only.
 
-ALB SG
-
+### ALB SG
 Allow HTTP from 0.0.0.0/0
-
 Allow TCP 8080 from your IP
 
-5. DNS & SSL Setup
-Step 1: Route53
+## 5. DNS & SSL Setup
 
+### Step 1: Route53
 Create a hosted zone in Route53.
-
 Add alias record pointing to the ALB DNS.
-
 Update domain NS records to point to Route53.
 
-Step 2: SSL with Certificate Manager
-
+### Step 2: SSL with Certificate Manager
 Request a certificate for your domain.
-
 Validate ownership (DNS validation recommended).
-
 Attach certificate to ALB HTTPS listener.
-
 Test website with HTTPS.
 
-6. Testing & Optimization
+## 6. Testing & Optimization
 
 Access the ALB URL multiple times to verify traffic distribution.
-
 Simulate load to ensure Auto Scaling launches additional instances.
-
 Check that EFS persistence works across new instances.
-
 Verify HTTPS is working properly.
