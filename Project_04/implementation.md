@@ -36,9 +36,7 @@
 1. Create Target Groups:
     HTTP: Port 80
     Test: Port 8080
-
 2. Attach target groups to Auto Scaling Group.
-
 3. Verify traffic distribution using ALB URL.
 
 ### **4. efs_setup.md**
