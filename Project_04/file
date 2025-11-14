@@ -1,0 +1,167 @@
+AAWS capstone projecct
+
+objective
+
+high availibility
+scalibility
+security
+resilence
+
+services
+
+vpc
+efs
+ec2
+auto scaling
+alb
+route53
+
+phase :
+
+design
+implementation
+testing and optimixation
+documentataion
+
+deliverable
+
+STEps
+
+created vpc with 192.168.0.0/24
+
+created four subnets 
+
+192.168.0.0 / 26 	= public subnet 1a   = ap-south-1a
+192.168.0.64 / 26	= public subnet 1b   = ap-south-1b
+192.168.0.128 / 26	= private subnet 1a  = ap-south-1a
+192.168.0.192 / 26	= private subnet 1b  = ap-south-1b
+
+next create ig attach it to vpc 
+
+CREATE ROUTE TABLE MAINRT	
+ANOTHER ROUT TABLE PUBLIC RT 
+
+NOW ASOCIATAE BOTH PUBLIC SUBNET TO THE PUBLIC RT SO ALL THEAT PUBIC TRAFFIC FLOW THROUGH THEM
+
+NOWE ARE LEFT WITH 2 PROVATE SUBNET SO WE ADD NAT GATWAY FOR THE PRIVATE SUBNETS AND ALLOW ALL THE OUTBOUND TAFFIC NOW
+
+ CREATE NAT GATWAY
+
+NAT GATWAYS ARE ALWAYS SUPPOSED TO BE IN PUBLIC SUBNET
+
+GOT TO MAIN RT AND ADD 0.0.0.0 AND CHOOSE NAT SO NOW PUBLIC INTERENET WILL GO THOROUGHTR PUBLIUC RT AND PRIVATE TRAFFIC WILL FLOW THROUGH NAT GATWAY
+
+NOW STAGE 2 
+
+USE EFS
+
+USE IT AND ATTACH IT ALL MACHINE AND USE THIS TO STORE WBESERVER FILE LIKE HOST FILE FROM THERE SO WE DONT HAVE TO CONFUGRE ON EVERY MACHINE
+
+GO TO VPC EDIT AND ENABLE DNS HOSTNAME ( FOR MOUNTING EFS MAKING IT EASY)
+
+GOTO SECURITY GROUP CREATE ONE FOR EFS
+
+EFSSG = FOR CAPSTONE EFS SHARED = ALL TRAFFIC = CREATE SG
+
+NOWGOT O EFS CREATE ONE 
+
+CONFIURE EFS WHILE CREATEING 
+
+SLECT PUBLIC SUBENT WHILE ONFIUGRING THE EFS AND SGWE CREATEED 
+
+NOW CREATE ON CUSTOM AMI FOR ALL THE AUTOSCALING AND OTHER THINGS 
+
+ec2- create instance - in networksection choose public subnet 1 and enable auto assignip CREATE SG ALL TRAFFIC IN AND CREATE WE WILL SET IT LATER
+
+NOW CONNECT TO EC2 AND USE SUDO -I
+
+install httpd / apache2
+start service andenable it using systemctl
+
+now connect the efs which we created before 
+
+first install amazon utils using yum to attach efs
+
+yum install amazon-efs-utils 
+
+now mount efs using belowe given command
+
+now to make it permanent edit /etc/fstab file
+
+and add this line at the end
+
+vi /etc/fstab
+
+"DNS NAME":/ var/www/html efs defaults,_netdev 0 0
+
+example 
+
+fs-0d6f3b87bc6ea0c2a.efs.ap-south-1.amazonaws.com:/ /var/www/html efs defaults,_netdev 0 0
+
+once mounted efs copy all the file here
+
+curl https://www.tooplate.com/zip-templates/2124_vertex.zip -o /opt/vertex.zip
+unzip vertex.zip 
+cd 2124_vertex/
+mv * /var/www/html/
+
+after puting code in the desired location try reboot so we can check wether volum efs is mounted correctly 
+
+now all has bneenm setup create ami image of the machine ec2 machine 
+
+FAZE 4 NOW
+
+WE ATRE SETING TEST APP FOR TO SEE WE ARE BEINGER SERVED BY DIFFERENT SERVERS AND TRAFFIC IS BEING DEVIDED TO THE SERVERS
+
+GOTO LAUNCHTEMPLATE  CREATE ONE USING THE OWNED BY ME AMI AND LET SUBNETS AND NETWORKS BE DEFAULT 
+
+AND USE THE SCRIPT ITS FOR THE TEST ENVIORMENT AND CHECKING ON SERVER SERVING CORRECTLY
+
+ADD THE USERDATA SCRIPT WHICH IS IN REPO AND CREATE LAUNCH TEMPLATE
+
+NOW CREATE AUTO SCLAING GROUP AND CHOOSE BOTH PRIVATE SUBNETS 
+
+DONE CREATING IT
+
+NOW SET ALB 
+
+NOW FOR ALB WE NEED TARGET GROUPS
+
+USE 80 FOR MAIN TG
+USE 8080 FOR TEST TG
+
+ONCE ALB CREATED GO TO ASG AND THEN IN LOAD BALACNINC ADD THIS BOTH TARGET GROUPS 
+
+NOW CHANGE NUMBER IN ASG LIKE HOW MANY MINUMUM MAHINE YOU WNT TO 0 FROM 2
+
+NOW USE LOAD BALANCER URL BOOMIT IS WORKING ALSO USE THAT SAME URL WITH PORT 8080 AND INCREASE CPU LOAD WE WILL SEE THAT MULTIPLE SERVERS ARE FIRED UP BEACUSE WE HAVE USED AUTO SALING GROUPS SO THE NUMHBER OF MACHINE WILL BE INCREASED WHEN THE CPU USAGE OF MACHINE HITS A CERTAIN POINT
+
+NOW DINCE WE ARE DONE WORKING LETS FIX THE SECURITY GROUPS
+
+GOT O ALB SG
+
+ALLOW HTTP FROM 0.0.0.0 AND PORT 80
+ALLOW CUSTOM TCP FROM MY IP AND PORT 8080 SO I CAN ONLY TEST THE APP 
+
+FOR WEB SERVER SG
+ALLOW HTTP FROM ALB0SGGEOUP ONLY AND SAVE 
+ALLOW CUSTOM TCP ON 8080 FROM ALB SG
+ALLOW SSH FROM MY IP ON 22
+	
+NOW FOR EFS 
+
+NFS PORT 2049 FROM WEBSRVER SG 
+
+DONE IMPLEMENTING SECURITY 
+
+now add it into route  53 change ns record in domain shop to amazons ns record
+
+now create zone 
+
+got to record add and alias and chose region load balancing and then choose alb dns done thats all the project is donwe
+
+create ssl certificate using certificate manager and then go to alb setting listner rule add twomore rules for both targets and use https 
+
+now go check the https://site.com now it works with https aswell 
+
+
