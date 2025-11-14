@@ -110,7 +110,7 @@ HTTP → Main-TG
 HTTP → Test-TG
 Review and create.
 
-## Step 3: Connect ALB to ASG
+### Step 3: Connect ALB to ASG
 
 In the ASG, attach both target groups.
 Adjust instance numbers to test scaling behavior.
@@ -118,7 +118,7 @@ Open ALB DNS URL in a browser to verify load balancing.
 
 ## 4. Security Groups & Hardening
 
-### Web Server SG
+#### Web Server SG
 Allow HTTP from ALB SG only.
 Allow custom TCP 8080 from ALB SG only.
 Allow SSH from your IP only.
@@ -126,7 +126,7 @@ Allow SSH from your IP only.
 #### EFS SG
 Allow NFS (port 2049) from Web Server SG only.
 
-### ALB SG
+#### ALB SG
 Allow HTTP from 0.0.0.0/0
 Allow TCP 8080 from your IP
 
