@@ -17,16 +17,14 @@ SSH into the instance:
 ```bash
 ssh -i your-key.pem ec2-user@<public-ip>
 sudo -i
-
 ```
 
-```bash
 Install Apache HTTP server:
 
+```bash
 sudo yum install httpd -y
 sudo systemctl start httpd
 sudo systemctl enable httpd
-
 ```
 
 ### Step 3: Mount EFS (Elastic File System)
