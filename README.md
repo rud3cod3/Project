@@ -10,4 +10,5 @@ Used docker image of jenkins and created a pipeline job which download code from
 #### Project 04 CAPSTONE AWS
 This project demonstrates the design and deployment of a highly available, scalable, and secure web application architecture on AWS using core infrastructure services such as VPC, EC2, EFS, Auto Scaling, ALB, and Route53. The goal is to build a production-grade environment that can automatically scale during demand spikes, ensure uptime across multiple Availability Zones, and maintain consistent shared storage across multiple servers.
 
-
+### Project 05 Containerize React App
+I used docker to containerize a react applicaton and used dockerfile and docker-compose file to make it available and i also used port mapping. i did it with 2 way one by using dockerfile and second by using docker-compose.yml. i also learned what difference both files have and how to use them.
