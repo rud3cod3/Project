@@ -1,6 +1,6 @@
 #  Dockerized React Application
 
-This project demonstrates how to containerize and deploy a React application using **Docker**, serve it with **Nginx**, and run the application using both **Dockerfile** and **Docker Compose**.  
+ ## This project demonstrates how to containerize and deploy a React application using **Docker**, serve it with **Nginx**, and run the application using both **Dockerfile** and **Docker Compose**.  
 ---
 
 ##  Tech Stack
@@ -94,11 +94,3 @@ Think of it like:
 - Environment variables for Node are handled inside the build stage.
 
 ---
-
-### Container running but site not accessible
-Likely missing port mapping.  
-Use:
-
-```
--p 3000:80
-```
