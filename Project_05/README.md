@@ -1,35 +1,104 @@
-# Docker Project
+#  Dockerized React Application
 
-## Description : 
-I have used Dockerfile to create a docker image and used dockers relative command to run that container from the image. Also i create docker compose file to create and run the container so i did it both ways from using Dockerfile and from using Docker-compose.yml file
+This project demonstrates how to containerize and deploy a React application using **Docker**, serve it with **Nginx**, and run the application using both **Dockerfile** and **Docker Compose**.  
+---
 
-## Tech stack
-    * react
-    * docker 
-    * nginx
+##  Tech Stack
+- React  
+- Docker  
+- Nginx  
 
-## Key Learning
-    * learned how to deploy react project
-    * used docker to contanerize react-aaplication
-    * learned what is diffrence between dockerfile and docker-compose.yml also learned when to use Which  
-    * much more
+---
 
-## Build Steps
+##  Key Learnings
+- Building and deploying a production React application  
+- Containerizing applications with Docker  
+- Understanding when to use **Dockerfile** vs **docker-compose.yml**  
+- Serving static frontend builds with Nginx  
+- Working with port mapping, logs, container lifecycle  
 
-## 1. To use Dockerfile
-    
-    '''bash
-    * install docker 
-    * clone repo and cd into dir
-    * docker build . -t react-app:1.0
-    * docker run -d --name react-container -p 3000:80 react-app:1.0
-    '''
+---
 
-* Now check on hosts browser http://localhost:3000
+#  Build & Run Instructions
 
-## 2. To use docker compose
+##  1. Using Dockerfile
 
-    '''bash
-    * install docker
-    * cd into it
-    * docker compose up -d
+```bash
+# Navigate to the project folder
+cd <project-folder>
+
+# Build the Docker image
+docker build -t react-app:1.0 .
+
+# Run the container
+docker run -d --name react-container -p 3000:80 react-app:1.0
+```
+### View Logs
+```bash
+docker logs -f react-container
+```
+
+### Stop and Remove Container
+```bash
+docker stop react-container
+docker rm react-container
+```
+
+---
+
+##  2. Using Docker Compose (Recommended)
+
+```bash
+docker compose up --build -d
+```
+
+### View Running Services
+```bash
+docker compose ps
+```
+
+### Logs
+```bash
+docker compose logs -f
+```
+
+### Stop Everything
+```bash
+docker compose down
+```
+
+---
+
+##  Difference Between Dockerfile & Docker Compose
+
+### Dockerfile
+- Defines **how an image is built**
+- Contains build steps for React + Nginx
+- Used when you want full control over image creation
+
+### Docker Compose
+- Defines **how containers run**
+- Manages ports, networks, environment variables, restarts
+- Ideal for multi-container setups and simpler workflow
+
+Think of it like:
+- **Dockerfile = Build recipe**
+- **Compose = Container orchestrator**
+
+---
+
+##  Notes on Production Setup
+
+- React production builds are automatically served by Nginx inside the container.  
+- The container exposes port **80**, which is mapped to a host port (e.g., 3000).  
+- Environment variables for Node are handled inside the build stage.
+
+---
+
+### Container running but site not accessible
+Likely missing port mapping.  
+Use:
+
+```
+-p 3000:80
+```
