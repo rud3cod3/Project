@@ -12,6 +12,7 @@ Project_06
     ├── css
     │   └── style.css
     └── index.php
+'''
 
 ## What This Project Demonstrates
 
@@ -43,20 +44,14 @@ Project_06
 
 '''bash
 docker-compose up --build -d
-
 '''
 
 ### 2. Access the Application
-Open your browser:
-
 '''bash
 http://localhost:8080
-
 '''
 
 ### 3. Stop the Containers
-
 '''bash
 docker compose down
-
 '''
