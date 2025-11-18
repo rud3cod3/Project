@@ -4,6 +4,7 @@ This project is a lightweight PHP application running inside a Docker container.
 ## File structure 
 
 '''bash
+
 Project_06
 ├── docker-compose.yml
 ├── Dockerfile
@@ -12,6 +13,7 @@ Project_06
     ├── css
     │   └── style.css
     └── index.php
+
 '''
 
 ## What This Project Demonstrates
