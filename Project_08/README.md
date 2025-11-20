@@ -10,3 +10,17 @@ This project is a small multi-service setup that demonstrates how a voting workf
 * Node.js Backend – Reads the data from PostgreSQL and displays the live/processed voting output.
 
 ### 1. Architecture Flow
+
+```bash
+User → Python Frontend → Redis → .NET Processor → PostgreSQL → Node.js Display
+```
+
+```bash
+| Component          | Role                                                                            |
+| ------------------ | ------------------------------------------------------------------------------- |
+| **Python App**     | Collects votes from users and pushes entries to Redis.                          |
+| **Redis**          | Temporary buffer for incoming votes.                                            |
+| **.NET Service**   | Fetches votes from Redis, processes them, and stores the results in PostgreSQL. |
+| **PostgreSQL**     | Final persistent database for vote results.                                     |
+| **Node.js Server** | Reads processed results from PostgreSQL and exposes an endpoint/UI for display. |
+```
