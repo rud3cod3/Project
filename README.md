@@ -16,8 +16,8 @@ I used docker to containerize a react applicaton and used dockerfile and docker-
 #### Project 06 Containerize Simple php app
 I used docker to containerize a php applicatipn and used dockerfie and docker-compose file to make and use docker image and containers. Additionally i used port mapping to make it available to the host browser. I also learned some more information about apache2 and its modules and what is apache2 and how modules assist it to be a sucessfull webserver.
 
-### Project 07 
+#### Project 07 
 This project demonstrates how to build a simple Python Flask application, package it into a Docker image, and push that image to Docker Hub.
 
-### Project 08
+#### Project 08
 A multi-service voting system built with Python, Redis, .NET, PostgreSQL, and Node.js. The Python frontend collects votes and stores them in Redis, a .NET processor pulls and saves the processed results into PostgreSQL, and a Node.js service displays the final output. All components are containerized with Docker and connected using linked containers.
