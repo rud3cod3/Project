@@ -1,68 +1,65 @@
-# Real-Time Voting System — Architecture & Deployment
+# Example Voting App
 
-### Description :
-This project is a small multi-service setup that demonstrates how a voting workflow can be implemented using different technologies working together inside Docker containers.
+A simple distributed application running across multiple Docker containers.
 
-* Python Frontend – Accepts user input and stores votes in Redis.
-* Redis – Acts as an in-memory message/queue layer between services.
-* .NET Processor – Pulls data from Redis, performs the required logic, and saves the results in PostgreSQL.
-* PostgreSQL – Persistent storage for finalized voting results.
-* Node.js Backend – Reads the data from PostgreSQL and displays the live/processed voting output.
+## Getting started
 
-### 1. Architecture Flow
+Download [Docker Desktop](https://www.docker.com/products/docker-desktop) for Mac or Windows. [Docker Compose](https://docs.docker.com/compose) will be automatically installed. On Linux, make sure you have the latest version of [Compose](https://docs.docker.com/compose/install/).
 
-```bash
-User → Python Frontend → Redis → .NET Processor → PostgreSQL → Node.js Display
+This solution uses Python, Node.js, .NET, with Redis for messaging and Postgres for storage.
+
+Run in this directory to build and run the app:
+
+```shell
+docker compose up
 ```
 
-```bash
-| Component          | Role                                                                            |
-| ------------------ | ------------------------------------------------------------------------------- |
-| **Python App**     | Collects votes from users and pushes entries to Redis.                          |
-| **Redis**          | Temporary buffer for incoming votes.                                            |
-| **.NET Service**   | Fetches votes from Redis, processes them, and stores the results in PostgreSQL. |
-| **PostgreSQL**     | Final persistent database for vote results.                                     |
-| **Node.js Server** | Reads processed results from PostgreSQL and exposes an endpoint/UI for display. |
+The `vote` app will be running at [http://localhost:8080](http://localhost:8080), and the `results` will be at [http://localhost:8081](http://localhost:8081).
+
+Alternately, if you want to run it on a [Docker Swarm](https://docs.docker.com/engine/swarm/), first make sure you have a swarm. If you don't, run:
+
+```shell
+docker swarm init
 ```
 
-### 2. Docker Setup
+Once you have your swarm, in this directory run:
 
-#### Build Docker image
-
-```bash
-docker build -t python-frontend ./python
-docker build -t dotnet-processor ./dotnet
-docker build -t node-display ./node
+```shell
+docker stack deploy --compose-file docker-stack.yml vote
 ```
 
-#### Now use link to connect all the container with each other
+## Run the app in Kubernetes
 
-```bash
-docker run -d --name redis redis
-docker run -d --name postgres -e POSTGRES_PASSWORD=pass postgres
+The folder k8s-specifications contains the YAML specifications of the Voting App's services.
 
-docker run -d --name python-frontend --link redis python-frontend
-docker run -d --name dotnet-processor --link redis --link postgres dotnet-processor
-docker run -d --name node-display --link postgres -p 3000:3000 node-display
+Run the following command to create the deployments and services. Note it will create these resources in your current namespace (`default` if you haven't changed it.)
+
+```shell
+kubectl create -f k8s-specifications/
 ```
 
-### 3. How the Services Communicate
+The `vote` web app is then available on port 31000 on each host of the cluster, the `result` web app is available on port 31001.
 
-* Python → Redis
-    * The Python service publishes vote data into Redis using simple key/value or list operations.
+To remove them, run:
 
-* .NET Service → Redis → PostgreSQL
-    * The .NET service:
-        1. Reads pending votes from Redis
-        2. Applies domain logic
-        3. Saves processed results into PostgreSQL
+```shell
+kubectl delete -f k8s-specifications/
+```
 
-* Node.js → PostgreSQL
-    * Node queries the saved results and exposes them through an API or web page.
+## Architecture
 
-### 4. Running the Full Stack
+![Architecture diagram](architecture.excalidraw.png)
 
-1. Start Redis and PostgreSQL
-2. Start Python service (linked to Redis)
-3. Start .NET processor (linked to Redis + PostgreSQL)
-4. Start Node.js server (linked to PostgreSQL)
+* A front-end web app in [Python](/vote) which lets you vote between two options
+* A [Redis](https://hub.docker.com/_/redis/) which collects new votes
+* A [.NET](/worker/) worker which consumes votes and stores them in…
+* A [Postgres](https://hub.docker.com/_/postgres/) database backed by a Docker volume
+* A [Node.js](/result) web app which shows the results of the voting in real time
+
+## Notes
+
+The voting application only accepts one vote per client browser. It does not register additional votes if a vote has already been submitted from a client.
+
+This isn't an example of a properly architected perfectly designed distributed app... it's just a simple
+example of the various types of pieces and languages you might see (queues, persistent data, etc), and how to
+deal with them in Docker at a basic level.
