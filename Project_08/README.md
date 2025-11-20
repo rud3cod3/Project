@@ -59,3 +59,10 @@ docker run -d --name node-display --link postgres -p 3000:3000 node-display
 
 * Node.js → PostgreSQL
     * Node queries the saved results and exposes them through an API or web page.
+
+### 4. Running the Full Stack
+
+1. Start Redis and PostgreSQL
+2. Start Python service (linked to Redis)
+3. Start .NET processor (linked to Redis + PostgreSQL)
+4. Start Node.js server (linked to PostgreSQL)
