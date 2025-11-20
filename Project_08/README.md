@@ -24,3 +24,38 @@ User → Python Frontend → Redis → .NET Processor → PostgreSQL → Node.js
 | **PostgreSQL**     | Final persistent database for vote results.                                     |
 | **Node.js Server** | Reads processed results from PostgreSQL and exposes an endpoint/UI for display. |
 ```
+
+### 2. Docker Setup
+
+#### Build Docker image
+
+```bash
+docker build -t python-frontend ./python
+docker build -t dotnet-processor ./dotnet
+docker build -t node-display ./node
+```
+
+#### Now use link to connect all the container with each other
+
+```bash
+docker run -d --name redis redis
+docker run -d --name postgres -e POSTGRES_PASSWORD=pass postgres
+
+docker run -d --name python-frontend --link redis python-frontend
+docker run -d --name dotnet-processor --link redis --link postgres dotnet-processor
+docker run -d --name node-display --link postgres -p 3000:3000 node-display
+```
+
+### 3. How the Services Communicate
+
+* Python → Redis
+    * The Python service publishes vote data into Redis using simple key/value or list operations.
+
+* .NET Service → Redis → PostgreSQL
+    * The .NET service:
+        1. Reads pending votes from Redis
+        2. Applies domain logic
+        3. Saves processed results into PostgreSQL
+
+* Node.js → PostgreSQL
+    * Node queries the saved results and exposes them through an API or web page.
